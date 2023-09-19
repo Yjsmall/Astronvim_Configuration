@@ -20,20 +20,18 @@ return {
         completeopt = "menu,menuone,noinsert",
       },
       sources = cmp.config.sources {
-        { name = "nvim_lsp",          priority = 1000 },
-        { name = "luasnip",           priority = 900 },
-        { name = "path",              priority = 750 },
+        { name = "nvim_lsp", priority = 1000 },
+        { name = "luasnip", priority = 900 },
+        { name = "path", priority = 750 },
         { name = "pandoc_references", priority = 725 },
-        { name = "latex_symbols",     priority = 700 },
-        { name = "emoji",             priority = 700 },
-        { name = "calc",              priority = 650 },
-        { name = "buffer",            priority = 250 },
+        { name = "latex_symbols", priority = 700 },
+        { name = "emoji", priority = 700 },
+        { name = "calc", priority = 650 },
+        { name = "buffer", priority = 250 },
       },
       mapping = {
         ["<CR>"] = cmp.config.disable,
         -- ctrl + e关闭补全窗口
-        ["<C-p>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select },
-        ["<C-n>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select },
         ["<C-k>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select },
         ["<C-j>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select },
         ["<Tab>"] = cmp.mapping(function(fallback)
