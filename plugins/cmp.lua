@@ -13,6 +13,7 @@ return {
   },
   opts = function(_, opts)
     local cmp = require "cmp"
+    local luasnip = require "luasnip"
 
     return require("astronvim.utils").extend_tbl(opts, {
       completion = {
@@ -30,34 +31,32 @@ return {
         { name = "buffer", priority = 250 },
       },
       mapping = {
-        ["<CR>"] = cmp.config.disable,
         -- ctrl + e关闭补全窗口
         ["<C-k>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select },
         ["<C-j>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select },
         ["<Tab>"] = cmp.mapping(function(fallback)
-          -- idea输入方式
           if cmp.visible() then
-            local entry = cmp.get_selected_entry()
-            if not entry then
-              cmp.select_next_item { behavior = cmp.SelectBehavior.Select }
-            else
-              if has_words_before() then
-                cmp.confirm {
-                  behavior = cmp.ConfirmBehavior.Replace,
-                  select = false,
-                }
-              else
-                cmp.confirm {
-                  behavior = cmp.ConfirmBehavior.Insert,
-                  select = false,
-                }
-              end
-            end
+            cmp.select_next_item()
+            -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
+            -- they way you will only jump inside the snippet region
+          elseif luasnip.expand_or_jumpable() then
+            luasnip.expand_or_jump()
+          elseif has_words_before() then
+            cmp.complete()
           else
             fallback()
           end
         end, { "i", "s" }),
-        ["<S-Tab>"] = cmp.config.disable,
+
+        ["<S-Tab>"] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.select_prev_item()
+          elseif luasnip.jumpable(-1) then
+            luasnip.jump(-1)
+          else
+            fallback()
+          end
+        end, { "i", "s" }),
       },
     })
   end,
