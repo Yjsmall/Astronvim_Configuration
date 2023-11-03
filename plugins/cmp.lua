@@ -26,7 +26,7 @@ return {
         { name = "path", priority = 750 },
         { name = "pandoc_references", priority = 725 },
         { name = "latex_symbols", priority = 700 },
-        { name = "emoji", priority = 700 },
+        { name = "emoji", priority = 100 },
         { name = "calc", priority = 650 },
         { name = "buffer", priority = 250 },
       },
